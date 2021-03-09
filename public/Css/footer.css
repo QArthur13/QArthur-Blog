@@ -1,0 +1,12 @@
+#general {
+
+    background-color: aquamarine;
+    text-align: center;
+}
+
+#news {
+
+    border-style: solid;
+    border-width: 3px;
+    border-color: white;
+}
