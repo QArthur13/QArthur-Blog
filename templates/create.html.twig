@@ -1,0 +1,9 @@
+{% include "base.html.twig" %}
+
+<h1>Création</h1>
+
+{{form(form)}}
+
+{% for message in app.flashes('success') %}
+    {{message}}
+{% endfor %}

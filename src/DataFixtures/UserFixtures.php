@@ -23,17 +23,6 @@ class UserFixtures extends Fixture
         $user = new User();
         $admin = new User();
 
-        $user
-            ->setLastName('Marcel')
-            ->setFirstName('Dupont')
-            ->setPseudo('TesteurDu13')
-            ->setEmail('dupont.marcel@youpi.fr')
-            ->setPassword($this->encoder->encodePassword($user, 'Rt1!'))
-        ;
-        $manager->persist($user);
-
-        $this->addReference('User', $user);
-
         $admin
             ->setLastName('Quaranta')
             ->setFirstName('Arthur')
@@ -45,6 +34,19 @@ class UserFixtures extends Fixture
         $manager->persist($admin);
 
         $this->addReference('Admin', $admin);
+
+        $manager->flush();
+
+        $user
+            ->setLastName('Marcel')
+            ->setFirstName('Dupont')
+            ->setPseudo('TesteurDu13')
+            ->setEmail('dupont.marcel@youpi.fr')
+            ->setPassword($this->encoder->encodePassword($user, 'Rt1!'))
+        ;
+        $manager->persist($user);
+
+        $this->addReference('User', $user);
 
         $manager->flush();
     }

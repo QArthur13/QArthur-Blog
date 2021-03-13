@@ -1,0 +1,11 @@
+{% include "base.html.twig" %}
+
+<a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
+
+<h1>Contact</h1>
+
+{{form(form)}}
+
+{% for message in app.flashes('success') %}
+    {{message}}
+{% endfor %}

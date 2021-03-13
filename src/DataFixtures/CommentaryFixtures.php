@@ -11,7 +11,7 @@ class CommentaryFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager)
     {
-        $commentary = new Commentary();
+        /* $commentary = new Commentary();
 
         $commentary
             ->setUser($this->getReference('User'))
@@ -20,7 +20,7 @@ class CommentaryFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->persist($commentary);
 
-        $manager->flush();
+        $manager->flush(); */
     }
 
     public function getDependencies()
