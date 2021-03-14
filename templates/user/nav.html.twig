@@ -1,17 +1,19 @@
 <ul class="nav justify-content-center">
     <li class="nav-item">
-        <a class="nav-link active" href="{{path('user_index')}}" style="background-color: rgb(46, 139, 87); color: white">Accueille</a>
+        <a class="nav-link active" href="{{ path('user_index') }}" style="background-color: rgb(46, 139, 87); color: white">Accueille</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#" style="background-color: rgb(46, 139, 87); color: white">Informations Personnelles</a>
+    {% for user in users %}
+        <a class="nav-link" href="{{ path('user_edit', {'id': user.id}) }}" style="background-color: rgb(46, 139, 87); color: white">Informations Personnelles</a>
+    {% endfor %}
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#" style="background-color: rgb(46, 139, 87); color: white">Articles aimés</a>
+        <a class="nav-link" href"{{ path('user_like') }}" style="background-color: rgb(46, 139, 87); color: white">Articles aimés</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#" style="background-color: rgb(46, 139, 87); color: white">Articles partagés</a>
+        <a class="nav-link" href="{{ path('user_share') }}" style="background-color: rgb(46, 139, 87); color: white">Articles partagés</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#" style="background-color: rgb(46, 139, 87); color: white">Articles commentés</a>
+        <a class="nav-link" href="{{ path('user_commentary') }}" style="background-color: rgb(46, 139, 87); color: white">Articles commentés</a>
     </li>
 </ul>

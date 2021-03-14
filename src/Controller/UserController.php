@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,7 +16,31 @@ use Symfony\Component\Routing\Annotation\Route;
 class UserController extends AbstractController
 {
     /**
-     * @Route("/user/information", name="user_edit")
+     * @Route("/commentary", name="user_commentary")
+     */
+    public function userCommentary()
+    {
+        return $this->render('user/commentary.html.twig', []);
+    }
+
+    /**
+     * @Route("/share", name="user_share")
+     */
+    public function userShare()
+    {
+        return $this->render('user/share.html.twig', []);
+    }
+
+    /**
+     * @Route("/like", name="user_like")
+     */
+    public function userLike()
+    {
+        return $this->render('user/like.html.twig', []);
+    }
+
+    /**
+     * @Route("/{id}/information", name="user_edit")
      */
     public function userEdit(Request $request, User $user)
     {
@@ -29,7 +54,7 @@ class UserController extends AbstractController
             return $this->redirectToRoute('user_edit');
         }
 
-        return $this->render('user/information.htlm.twig', [
+        return $this->render('user/information.html.twig', [
 
             'user' => $user,
             'form' => $user_edit_form->createView()
@@ -39,8 +64,11 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index")
      */
-    public function index(): Response
+    public function index(UserRepository $userRepository): Response
     {
-        return $this->render('user/index.html.twig', []);
+        return $this->render('user/index.html.twig', [
+
+            'users' => $userRepository->findAll()
+        ]);
     }
 }

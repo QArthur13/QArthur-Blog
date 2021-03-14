@@ -3,6 +3,9 @@
 <body style="background-color: rgb(60, 179, 113); color: white">
     {% block body %}
         {% include "user/nav.html.twig" %}
-            
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <button class="btn btn-primary">{{ button_label|default('Modifier') }}</button>
+        {{ form_end(form) }}
     {% endblock %}
 </body>
