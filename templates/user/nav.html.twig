@@ -3,7 +3,7 @@
         <a class="nav-link active" href="{{ path('user_index') }}" style="background-color: rgb(46, 139, 87); color: white">Accueille</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link" href="#" style="background-color: rgb(46, 139, 87); color: white">Informations Personnelles</a>
+        <a class="nav-link" href="{{ path('user_edit', {'id': app.user.id}) }}" style="background-color: rgb(46, 139, 87); color: white">Informations Personnelles</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" href"{{ path('user_like') }}" style="background-color: rgb(46, 139, 87); color: white">Articles aimés</a>

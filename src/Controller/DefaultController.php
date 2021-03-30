@@ -9,6 +9,7 @@ use App\Entity\Contact;
 use App\Form\ContactType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
+use App\Repository\CommentaryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,6 +18,18 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends AbstractController
 {
+    /**
+     * @Route("/numero{id}", name="article")
+     */
+    public function article(Article $article, CommentaryRepository $commentaryRepository)
+    {
+        return $this->render('article.html.twig', [
+
+            'article' => $article,
+            'commentary' => $commentaryRepository->findAll()
+        ]);
+    }
+
     /**
      * @Route("/about", name="about")
      */

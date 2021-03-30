@@ -30,20 +30,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-                        {% if app.user and is_granted('ROLE_ADMIN') %}
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('admin_index')}}">Accueille <span class="sr-only">(current)</span></a>
-                            </li>
-                        {% elseif app.user %}
-                            <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('user_index')}}">Accueille <span class="sr-only">(current)</span></a>
-                            </li>
-                        {% else %}    
-                            <li class="nav-item active">
-                                <a class="nav-link" href="/">Accueille <span class="sr-only">(current)</span></a>
-                            </li>
-                        {% endif %}
-                        
+                         <li class="nav-item active">
+                            <a class="nav-link" href="/">Accueille <span class="sr-only">(current)</span></a>
+                        </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ path('about') }}">A propos</a>
                         </li>
@@ -53,9 +42,18 @@
                         <li class="nav-item active">
                             <a class="nav-link" href="{{ path('create') }}">Créer un compte</a>
                         </li>
+                        {% if app.user and is_granted('ROLE_ADMIN') %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ path('admin_index')}}">Voir votre profil {{app.user.pseudo}} <span class="sr-only">(current)</span></a>
+                            </li>
+                        {% elseif app.user %}
+                            <li class="nav-item active">
+                                <a class="nav-link" href="{{ path('user_index')}}">Voir votre profil {{app.user.pseudo}} <span class="sr-only">(current)</span></a>
+                            </li>  
+                        {% endif %}
                         {% if app.user %}
                             <li class="nav-item active">
-                                <a class="nav-link" href="{{ path('app_logout') }}">{{app.user.pseudo}} Se déconnecter</a>
+                                <a class="nav-link" href="{{ path('app_logout') }}">{{app.user.lastname}} {{app.user.firstname}} Se déconnecter</a>
                             </li>
                         {% else %}
                             <li class="nav-item active">

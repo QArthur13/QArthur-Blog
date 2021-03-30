@@ -1,13 +1,17 @@
 {% include "base.html.twig" %}
 
 {% block body %}
+<div class="text-center bg-primary text-white mt-3 ml-5 mr-5">
     {% for list in liste %}
-        <h3>{{list.user.lastname}} {{list.user.firstname}} {{list.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{list.category}}</h3>
+        <h3 class="text-left">{{list.user.lastname}} {{list.user.firstname}} {{list.date|date("d/m/Y H:i:s")}}<span class="ml-5">{{list.category}}</span></h3>
         <br>
         <h4>{{list.title}}</h4>
         <img src="{{list.image}}" class="img-fluid" alt="BERSERK!">
-        <p>{{list.contents|slice(1, 10)}}</p>
+        <p class="text-left mt-3 ml-2">{{list.contents|slice(1, 10)}}</p>
+        <a href="{{ path('article', {'id': list.id}) }}" class="text-white">En savoir plus</a>
     {% endfor %}
-{% endblock %}
 
+</div>
 {% include "footer.html.twig" %}
+
+{% endblock %}
