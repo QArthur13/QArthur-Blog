@@ -7,6 +7,15 @@
             <br>
             <p>Vous avez partagés :</p>
             <br>
-            <p>Vous avez commentés :</p>
+            <p>Les cinqs dernier articles que vous avez commentés :</p>
+            {% for commentary in commentaries %}
+                
+                {% if commentary is empty %}
+                    <p>Pas de commentaire</p>
+                {% endif %}
+                
+                <p>Nom de l'article: <strong>{{commentary.article.title}}</strong></p>
+                <p>Votre commentaires: <em>{{commentary.message}}</em></p>
+            {% endfor %}
         </div>
 </body>

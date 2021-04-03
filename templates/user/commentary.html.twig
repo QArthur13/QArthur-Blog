@@ -3,10 +3,14 @@
 <body style="background-color: rgb(60, 179, 113); color: white">
     {% include "user/nav.html.twig" %}
         <div class="mt-3 text-center" style="background-color: rgb(46, 139, 87); color: white">
-            <p>Vous avez aimer :</p>
-            <br>
-            <p>Vous avez partagés :</p>
-            <br>
-            <p>Vous avez commentés :</p>
+            <h1 class="text-center">Listes des commentaires que vous avez mis:</h1>
+            {% for comment in article %}
+                <img src="{{comment.article.image}}" class="img-fluid">
+                <h4>{{comment.article.title}}</h4>
+                <p>{{comment.article.category}}</p>
+                <p>{{comment.article.contents|slice(1, 10)}}
+                <p>{{comment.article.user.lastname}} {{comment.article.user.firstname}}</p>
+                <p>{{comment.message}}</p>
+            {% endfor %}
         </div>
 </body>

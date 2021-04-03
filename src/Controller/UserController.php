@@ -4,11 +4,14 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Entity\Commentary;
 use App\Repository\UserRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\ArticleRepository;
+use App\Repository\CommentaryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 /**
  * @Route("profile/user")
@@ -18,9 +21,12 @@ class UserController extends AbstractController
     /**
      * @Route("/commentary", name="user_commentary")
      */
-    public function userCommentary()
+    public function userCommentary(CommentaryRepository $commentaryRepository)
     {
-        return $this->render('user/commentary.html.twig', []);
+        return $this->render('user/commentary.html.twig', [
+
+            'article' => $commentaryRepository->findAll(),
+        ]);
     }
 
     /**
@@ -65,11 +71,11 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index")
      */
-    public function index(UserRepository $userRepository): Response
+    public function index(CommentaryRepository $commentaryRepository): Response
     {
         return $this->render('user/index.html.twig', [
 
-            'users' => $userRepository->findAll()
+            'commentaries' => $commentaryRepository->findAll()
         ]);
     }
 }
