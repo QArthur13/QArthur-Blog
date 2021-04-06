@@ -1,0 +1,26 @@
+{% include "base.html.twig" %}
+
+{# <h1 class="text-center">Résultat pour {{search.title}}</h1> #}
+
+{% if search is empty %}
+    <h1>Aucun Résultat!!</h1>
+{% endif %}
+
+{% for list in search %}
+    <h1 class="text-center">Résultat:</h1>
+
+    <div class="card mb-3" style="max-width: 540px;">
+        <div class="row no-gutters">
+            <div class="col">
+                <img src="{{list.image}}" alt="uneImage_\O_O/">
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h5 class="card-title">{{list.user.lastname}} {{list.user.firstname}}   {{list.date|date("d/m/Y H:i:s")}}   {{list.category}}</h5>
+                    <p class="card-text">{{list.contents|slice(0, 10)}}</p>
+                    <a href="{{ path('article', {'id': list.id}) }}" class="card-link">En savoir plus</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endfor %}

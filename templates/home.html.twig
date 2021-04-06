@@ -1,17 +1,22 @@
 {% include "base.html.twig" %}
 
 {% block body %}
-<div class="text-center bg-primary text-white mt-3 ml-5 mr-5">
-    {% for list in liste %}
-        <h3 class="text-left">{{list.user.lastname}} {{list.user.firstname}} {{list.date|date("d/m/Y H:i:s")}}<span class="ml-5">{{list.category}}</span></h3>
-        <br>
-        <h4>{{list.title}}</h4>
-        <img src="{{list.image}}" class="img-fluid" alt="BERSERK!">
-        <p class="text-left mt-3 ml-2">{{list.contents|slice(1, 10)}}</p>
-        <a href="{{ path('article', {'id': list.id}) }}" class="text-white">En savoir plus</a>
-    {% endfor %}
 
+{{form_start(searchForm)}}
+    {{form_widget(searchForm)}}
+{{form_end(searchForm)}}
+
+<div class="text-center bg-primary text-white mt-3 ml-5 mr-5">
+    {% for article in articles %}
+        <h3 class="text-left">{{article.user.lastname}} {{article.user.firstname}} {{article.date|date("d/m/Y H:i:s")}}<span class="ml-5">{{article.category}}</span></h3>
+        <br>
+        <h4>{{article.title}}</h4>
+        <img src="{{article.image}}" class="img-fluid" alt="BERSERK!">
+        <p class="text-left mt-3 ml-2">{{article.contents|slice(1, 10)}}</p>
+        <a href="{{ path('article', {'id': article.id}) }}" class="text-white">En savoir plus</a>
+    {% endfor %}
 </div>
+
 {% include "footer.html.twig" %}
 
 {% endblock %}

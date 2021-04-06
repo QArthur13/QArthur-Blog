@@ -1,18 +1,15 @@
 {% include "base.html.twig" %}
 
 {% block body %}
-
 <a class="btn btn-primary mt-2 ml-3" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
 
 <div class="text-center bg-primary text-white mt-3 ml-5 mr-5">
-
     <h3 class="text-left">{{article.user.lastname}} {{article.user.firstname}} {{article.date|date("d/m/Y H:i:s")}}<span class="ml-5">{{article.category}}</span></h3>
     <br>
     <h4>{{article.title}}</h4>
     <h6>{{article.underTitle}}</h6>
     <img src="{{article.image}}" class="img-fluid">
     <p class="text-left mt-3 ml-2">{{article.contents}}</p>
-
 <div>
 
 <div class="bg-success text-white">
@@ -23,14 +20,11 @@
         <p>{{comment.message}}</p>
 
     {% endfor %}
-
     <br>
-
     {% if app.user %}
         <h4>{{app.user.pseudo}}</h4>
     {% else %}
         <h4>Vous devez être connecter pour poster un commentaire</h4>
     {% endif %}
-    
 </div>
 {% endblock %}

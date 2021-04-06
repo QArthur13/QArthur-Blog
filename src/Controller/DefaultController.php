@@ -14,10 +14,44 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends AbstractController
 {
+    /* public function search(Request $request, ArticleRepository $articleRepository)
+    {
+        $searchForm = $this->createFormBuilder(null)
+            ->add('query', TextType::class)
+            ->add('recherche', SubmitType::class, [
+
+                'attr' => [
+
+                    'class' => 'btn btn-primary'
+                ]
+            ])
+            ->getForm()
+        ;
+
+        $query = $request->query->get('query');
+
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+            
+            return $this->render('search.html.twig', [
+
+                'serach' => $articleRepository->findSearch($query)
+            ]);
+        }
+
+        return $this->render('home.html.twig', [
+
+            'searchForm' => $searchForm->createView()
+        ]);
+    } */
+
     /**
      * @Route("/numero{id}", name="article")
      */
@@ -103,10 +137,46 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(ArticleRepository $articleRepository): Response
+    public function index(ArticleRepository $articleRepository, Request $request): Response
     {
+        /* $q = $request->query->get('q');
+        $search = $articleRepository->findSearch($q); */
+
+        $searchForm = $this->createFormBuilder(null)
+            ->add('query', TextType::class)
+            ->add('recherche', SubmitType::class, [
+
+                'attr' => [
+
+                    'class' => 'btn btn-primary'
+                ]
+            ])
+            ->getForm()
+        ;
+
+        /* $query = $request->query->get('query');
+        $query = $request->request->get('query'); */
+
+        $searchForm->handleRequest($request);
+
+        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
+
+            $data = $searchForm->getData();
+            // dd($request->request->get('query'));
+            //dd($data['query']);
+
+            return $this->render('search/search.html.twig', [
+
+                'search' => $articleRepository->findSearch($data['query']),
+            ]);
+        }
+
         return $this->render('home.html.twig', [
-            'liste' => $articleRepository->findAll()
+
+            //'search' => $search,
+            'articles' => $articleRepository->findAll(),
+            'searchForm' => $searchForm->createView()
+
             ]);
     }
 }
