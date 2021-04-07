@@ -10,12 +10,14 @@ use App\Form\ContactType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
+use Knp\Component\Pager\PaginatorInterface;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends AbstractController
@@ -137,10 +139,17 @@ class DefaultController extends AbstractController
     /**
      * @Route("/", name="default")
      */
-    public function index(ArticleRepository $articleRepository, Request $request): Response
+    public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        /* $q = $request->query->get('q');
-        $search = $articleRepository->findSearch($q); */
+        //$dataArticle = $articleRepository->findAll();
+        $dataArticle = $articleRepository->findBy([], ['date' => 'desc']);
+
+        $articles = $paginator->paginate(
+
+            $dataArticle,
+            $request->query->getInt('page', 1),
+            1
+        );
 
         $searchForm = $this->createFormBuilder(null)
             ->add('query', TextType::class)
@@ -174,7 +183,8 @@ class DefaultController extends AbstractController
         return $this->render('home.html.twig', [
 
             //'search' => $search,
-            'articles' => $articleRepository->findAll(),
+            //'articles' => $articleRepository->findAll(),
+            'articles' => $articles,
             'searchForm' => $searchForm->createView()
 
             ]);
