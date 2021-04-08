@@ -8,7 +8,7 @@
                 <img src="{{comment.article.image}}" class="img-fluid">
                 <h4>{{comment.article.title}}</h4>
                 <p>{{comment.article.category}}</p>
-                <p>{{comment.article.contents|slice(1, 10)}}
+                <p>{{comment.article.contents|slice(0, 10) ~ '...'}}
                 <p>{{comment.article.user.lastname}} {{comment.article.user.firstname}}</p>
                 <p>{{comment.message}}</p>
             {% endfor %}
