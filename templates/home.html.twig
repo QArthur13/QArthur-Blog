@@ -2,10 +2,6 @@
 
 {% block body %}
 
-<div class="count">
-    {{articles.getTotalItemCount}}
-</div>
-
 {{form_start(searchForm)}}
     {{form_widget(searchForm)}}
 {{form_end(searchForm)}}
@@ -18,11 +14,19 @@
         <img src="{{article.image}}" class="img-fluid" alt="BERSERK!">
         <p class="text-left mt-3 ml-2">{{article.contents|slice(0, 10)}}</p>
         <a href="{{ path('article', {'id': article.id}) }}" class="text-white">En savoir plus</a>
+        <br>
     {% endfor %}
 </div>
 
+<br>
+
 <div class="navigation">
-    {{knp_pagination_render(articles)}}
+    {{knp_pagination_render(articles, null, {}, {
+
+        'align': 'center',
+        'size': 'medium',
+        'rounded' : 'false'
+    })}}
 </div>
 {% include "footer.html.twig" %}
 

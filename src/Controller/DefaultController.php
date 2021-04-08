@@ -148,7 +148,7 @@ class DefaultController extends AbstractController
 
             $dataArticle,
             $request->query->getInt('page', 1),
-            1
+            10
         );
 
         $searchForm = $this->createFormBuilder(null)
