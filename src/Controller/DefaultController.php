@@ -12,12 +12,14 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends AbstractController
@@ -62,7 +64,8 @@ class DefaultController extends AbstractController
         return $this->render('article.html.twig', [
 
             'article' => $article,
-            'commentary' => $commentaryRepository->findAll()
+            //'commentary' => $commentaryRepository->findAll()
+            'commentary' => $commentaryRepository->eachCommentary()
         ]);
     }
 
@@ -141,7 +144,6 @@ class DefaultController extends AbstractController
      */
     public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator): Response
     {
-        //$dataArticle = $articleRepository->findAll();
         $dataArticle = $articleRepository->findBy([], ['date' => 'desc']);
 
         $articles = $paginator->paginate(
@@ -152,6 +154,31 @@ class DefaultController extends AbstractController
         );
 
         $searchForm = $this->createFormBuilder(null)
+            ->add('Choose', ChoiceType::class, [
+
+                'choices' => [
+
+                    'Défaut' => 1,
+
+                    'Auteur' => [
+
+                        'Croissant' => 2.1,
+                        'Décroissant' => 2.2
+                    ],
+
+                    'Date' => [
+
+                        'Croissant' => 3.1,
+                        'Décroissant' => 3.2
+                    ],
+
+                    'Titre' => [
+
+                        'A-Z' => 4.1,
+                        'Z-A' => 4.2
+                    ]
+                ],
+            ])
             ->add('query', TextType::class)
             ->add('recherche', SubmitType::class, [
 
@@ -163,27 +190,70 @@ class DefaultController extends AbstractController
             ->getForm()
         ;
 
-        /* $query = $request->query->get('query');
-        $query = $request->request->get('query'); */
-
         $searchForm->handleRequest($request);
 
         if ($searchForm->isSubmitted() && $searchForm->isValid()) {
 
+            //dd($data = $searchForm->getData());
+
             $data = $searchForm->getData();
-            // dd($request->request->get('query'));
-            //dd($data['query']);
+
+            if ($data['Choose'] == 2.1) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->ascendingAutor($data['query']),
+                ]);
+            }
+
+            if ($data['Choose'] == 2.2) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->descendingAutor($data['query']),
+                ]);
+            }
+
+            if ($data['Choose'] == 3.1) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->ascendingDate($data['query']),
+                ]);
+            }
+
+            if ($data['Choose'] == 3.2) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->descendingDate($data['query']),
+                ]);
+            }
+
+            if ($data['Choose'] == 4.1) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->ascendingTitle($data['query']),
+                ]);
+            }
+
+            if ($data['Choose'] == 4.2) {
+                
+                return $this->render('search/search.html.twig', [
+
+                    'filters' => $articleRepository->descendingTitle($data['query']),
+                ]);
+            }
 
             return $this->render('search/search.html.twig', [
 
-                'search' => $articleRepository->findSearch($data['query']),
+                'filters' => $articleRepository->findSearch($data['query']),
             ]);
         }
 
         return $this->render('home.html.twig', [
 
-            //'search' => $search,
-            //'articles' => $articleRepository->findAll(),
             'articles' => $articles,
             'searchForm' => $searchForm->createView()
 

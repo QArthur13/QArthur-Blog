@@ -13,13 +13,28 @@
 <div>
 
 <div class="bg-success text-white">
-    {% for comment in commentary %}
 
-        <h4>{{comment.user.pseudo}} <span class="ml-3">{{comment.user.email}}</span></h4>
+    {# {% if commentary.id != article.id %}
+        <h4 class="text-center">Pas de commentaires</h4>
+    {% endif %} #}
+    
+    {# {% for comment in commentary %}
+        
+        {% if comment.article.id == comment.id %}
+            <h4>{{comment.user.pseudo}} <span class="ml-3">{{comment.user.email}}</span></h4>
+            <br>
+            <p>{{comment.message}}</p>
+        {% else %}
+            <h4>Pas de Résultat</h4>
+        {% endif %} #}
+        
+
+        {# <h4>{{comment.user.pseudo}} <span class="ml-3">{{comment.user.email}}</span></h4>
         <br>
-        <p>{{comment.message}}</p>
+        <p>{{comment.message}}</p> #}
 
-    {% endfor %}
+    {# {% endfor %} #}
+
     <br>
     {% if app.user %}
         <h4>{{app.user.pseudo}}</h4>

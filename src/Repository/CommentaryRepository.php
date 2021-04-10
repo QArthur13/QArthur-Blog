@@ -19,6 +19,15 @@ class CommentaryRepository extends ServiceEntityRepository
         parent::__construct($registry, Commentary::class);
     }
 
+    public function eachCommentary()
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.article', 'a', 'WITH', 'a.id = c.article')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Commentary[] Returns an array of Commentary objects
     //  */

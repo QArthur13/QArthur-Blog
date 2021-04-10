@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -27,6 +29,92 @@ class ArticleRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('t')
             ->where('t.title LIKE :term')
             ->setParameter('term', '%'.$term.'%')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function ascendingAutor(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.user', 'u', 'WITH', 'u.id = a.user')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('u.lastName, u.firstName', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function descendingAutor(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->innerJoin('a.user', 'u', 'WITH', 'u.id = a.user')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('u.lastName, u.firstName', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function ascendingDate(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('a.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function descendingDate(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('a.date', 'DESC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function ascendingTitle(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('a.title', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Article[]
+     */
+    public function descendingTitle(string $term)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.title LIKE :term')
+            ->setParameter('term', '%'.$term.'%')
+            ->orderBy('a.title', 'DESC')
             ->getQuery()
             ->getResult()
         ;
