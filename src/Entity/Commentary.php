@@ -34,6 +34,16 @@ class Commentary
      */
     private $message;
 
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    private $date;
+
+    /**
+     * @ORM\Column(type="boolean", nullable=true)
+     */
+    private $approve;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -71,6 +81,30 @@ class Commentary
     public function setMessage(string $message): self
     {
         $this->message = $message;
+
+        return $this;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+
+        return $this;
+    }
+
+    public function getApprove(): ?bool
+    {
+        return $this->approve;
+    }
+
+    public function setApprove(?bool $approve): self
+    {
+        $this->approve = $approve;
 
         return $this;
     }

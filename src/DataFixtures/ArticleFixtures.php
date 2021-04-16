@@ -16,11 +16,13 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
     public function load(ObjectManager $manager)
     {
         $article = new Article();
+        $article2 = new Article();
+
         //$time = new \DateTime();
-        $time2 = new \DateTime();
-        $time2->setTimezone(new DateTimeZone('EUROPE/Paris'));
 
         $time = DateTime::createFromFormat('Y-m-d H:i:s', '2021-03-05 10:00:00');
+        $time2 = new \DateTime();
+        $time2->setTimezone(new DateTimeZone('EUROPE/Paris'));
 
         $article
             ->setDate($time)
@@ -29,6 +31,7 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             ->setUnderTitle('Aujourd\'hui je vais vous raconter le premier Tome de Berserk.')
             ->setContents('Lorem ipsum dolor sit amet.')
             ->setImage('image/berserk_T1.jpg')
+            ->setVisibility(true)
             ->setUser($this->getReference('Admin'))
         ;
 
@@ -38,10 +41,6 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
 
         $manager->flush();
 
-        //--------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-        $article2 = new Article();
-
         $article2
             ->setDate($time2)
             ->setCategory('Manga')
@@ -49,12 +48,13 @@ class ArticleFixtures extends Fixture implements DependentFixtureInterface
             ->setUnderTitle('Aujourd\'hui je vais vous raconter le premier Tome de Parsyte (Kiseiju)')
             ->setContents('Lorem ipsum dolor sit amet.')
             ->setImage('image/parasyteT1.jpg')
+            ->setVisibility(true)
             ->setUser($this->getReference('Admin'))
         ;
 
         $manager->persist($article2);
 
-        $this->addReference('ParasyteT1Article', $article2);
+        //$this->addReference('ParasyteT1Article', $article2);
 
         $manager->flush();
     }

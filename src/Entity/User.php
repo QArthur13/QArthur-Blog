@@ -61,10 +61,27 @@ class User implements UserInterface
      */
     private $commentaries;
 
+    /**
+     * @ORM\Column(type="string", length=128)
+     */
+    private $phone;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserLike::class, mappedBy="user")
+     */
+    private $userLikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserShare::class, mappedBy="user")
+     */
+    private $userShares;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->commentaries = new ArrayCollection();
+        $this->userLikes = new ArrayCollection();
+        $this->userShares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -238,6 +255,78 @@ class User implements UserInterface
             // set the owning side to null (unless already changed)
             if ($commentary->getUser() === $this) {
                 $commentary->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getPhone(): ?string
+    {
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLike[]
+     */
+    public function getUserLikes(): Collection
+    {
+        return $this->userLikes;
+    }
+
+    public function addUserLike(UserLike $userLike): self
+    {
+        if (!$this->userLikes->contains($userLike)) {
+            $this->userLikes[] = $userLike;
+            $userLike->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLike(UserLike $userLike): self
+    {
+        if ($this->userLikes->removeElement($userLike)) {
+            // set the owning side to null (unless already changed)
+            if ($userLike->getUser() === $this) {
+                $userLike->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserShare[]
+     */
+    public function getUserShares(): Collection
+    {
+        return $this->userShares;
+    }
+
+    public function addUserShare(UserShare $userShare): self
+    {
+        if (!$this->userShares->contains($userShare)) {
+            $this->userShares[] = $userShare;
+            $userShare->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserShare(UserShare $userShare): self
+    {
+        if ($this->userShares->removeElement($userShare)) {
+            // set the owning side to null (unless already changed)
+            if ($userShare->getUser() === $this) {
+                $userShare->setUser(null);
             }
         }
 

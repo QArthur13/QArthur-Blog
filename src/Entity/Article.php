@@ -60,9 +60,26 @@ class Article
      */
     private $commentaries;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $visibility;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserLike::class, mappedBy="article")
+     */
+    private $userLikes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=UserShare::class, mappedBy="article")
+     */
+    private $userShares;
+
     public function __construct()
     {
         $this->commentaries = new ArrayCollection();
+        $this->userLikes = new ArrayCollection();
+        $this->userShares = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -178,6 +195,78 @@ class Article
             // set the owning side to null (unless already changed)
             if ($commentary->getArticle() === $this) {
                 $commentary->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getVisibility(): ?bool
+    {
+        return $this->visibility;
+    }
+
+    public function setVisibility(bool $visibility): self
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserLike[]
+     */
+    public function getUserLikes(): Collection
+    {
+        return $this->userLikes;
+    }
+
+    public function addUserLike(UserLike $userLike): self
+    {
+        if (!$this->userLikes->contains($userLike)) {
+            $this->userLikes[] = $userLike;
+            $userLike->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserLike(UserLike $userLike): self
+    {
+        if ($this->userLikes->removeElement($userLike)) {
+            // set the owning side to null (unless already changed)
+            if ($userLike->getArticle() === $this) {
+                $userLike->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|UserShare[]
+     */
+    public function getUserShares(): Collection
+    {
+        return $this->userShares;
+    }
+
+    public function addUserShare(UserShare $userShare): self
+    {
+        if (!$this->userShares->contains($userShare)) {
+            $this->userShares[] = $userShare;
+            $userShare->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserShare(UserShare $userShare): self
+    {
+        if ($this->userShares->removeElement($userShare)) {
+            // set the owning side to null (unless already changed)
+            if ($userShare->getArticle() === $this) {
+                $userShare->setArticle(null);
             }
         }
 

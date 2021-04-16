@@ -30,6 +30,7 @@ class UserFixtures extends Fixture
             ->setEmail('admin@youpi.fr')
             ->setPassword($this->encoder->encodePassword($admin, 'root'))
             ->setRoles(['ROLE_ADMIN'])
+            ->setPhone('+33685888989')
         ;
         $manager->persist($admin);
 
@@ -43,6 +44,7 @@ class UserFixtures extends Fixture
             ->setPseudo('TesteurDu13')
             ->setEmail('dupont.marcel@youpi.fr')
             ->setPassword($this->encoder->encodePassword($user, 'Rt1!'))
+            ->setPhone('+33745135765')
         ;
         $manager->persist($user);
 

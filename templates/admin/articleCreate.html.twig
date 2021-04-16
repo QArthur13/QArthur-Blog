@@ -1,0 +1,12 @@
+{% include "base.html.twig" %}
+
+{{form_start(articleForm)}}
+    {{form_row(articleForm.user, {
+        'attr': {
+            'id': app.user.id,
+        },
+    })}}
+    <a class="btn btn-danger" href="{{ path('admin_index')}}" role="button">Annuler</a>
+{{form_end(articleForm)}}
+
+{# , {'attr': {'value': app.user.id}} #}

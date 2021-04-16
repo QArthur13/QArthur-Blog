@@ -24,38 +24,6 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class DefaultController extends AbstractController
 {
-    /* public function search(Request $request, ArticleRepository $articleRepository)
-    {
-        $searchForm = $this->createFormBuilder(null)
-            ->add('query', TextType::class)
-            ->add('recherche', SubmitType::class, [
-
-                'attr' => [
-
-                    'class' => 'btn btn-primary'
-                ]
-            ])
-            ->getForm()
-        ;
-
-        $query = $request->query->get('query');
-
-        $searchForm->handleRequest($request);
-
-        if ($searchForm->isSubmitted() && $searchForm->isValid()) {
-            
-            return $this->render('search.html.twig', [
-
-                'serach' => $articleRepository->findSearch($query)
-            ]);
-        }
-
-        return $this->render('home.html.twig', [
-
-            'searchForm' => $searchForm->createView()
-        ]);
-    } */
-
     /**
      * @Route("/numero{id}", name="article")
      */
