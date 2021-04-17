@@ -21,6 +21,43 @@ use Symfony\Component\String\Slugger\SluggerInterface;
  */
 class AdminController extends AbstractController
 {
+    /**
+     * @Route("/suppresion_N°{id}", name="article_delete")
+     */
+    public function deleteArticle(Article $article)
+    {
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($article);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("admin_articles");
+    }
+
+    /**
+     * @Route("/article_N°{id}", name="article_edit")
+     */
+    public function editArticle(Article $article, Request $request)
+    {
+        $articleEditForm = $this->createForm(ArticleType::class, $article);
+        $articleEditForm->handleRequest($request);
+
+        //dd($article->getUser());
+
+        if ($articleEditForm->isSubmitted() && $articleEditForm->isValid()) {
+
+            dd($articleEditForm->getData());
+            
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('admin_index');
+        }
+
+        return $this->render('admin/edit_article.html.twig', [
+
+            'article' => $article,
+            'articleForm' => $articleEditForm->createView()
+        ]);
+    }
 
     /**
      * @Route("/creation", name="article_create")
@@ -37,7 +74,7 @@ class AdminController extends AbstractController
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
 
             $imageFile = $articleForm->get('image')->getData();
-            $data = $articleForm->getData();
+            //$data = $articleForm->getData();
 
             if ($imageFile) {
                 
@@ -61,7 +98,7 @@ class AdminController extends AbstractController
             $article
                 ->setDate($date)
                 ->setImage($newImagename)
-                ->setUser($this->getUser())
+                //->setUser($this->getUser())
             ;
 
             //dd($article);

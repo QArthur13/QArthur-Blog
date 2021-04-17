@@ -5,11 +5,15 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Entity\Article;
+use App\Entity\Commentary;
 use App\Entity\Contact;
+use App\Form\CommentaryType;
 use App\Form\ContactType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
+use DateTime;
+use DateTimeZone;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -27,13 +31,38 @@ class DefaultController extends AbstractController
     /**
      * @Route("/numero{id}", name="article")
      */
-    public function article(Article $article, CommentaryRepository $commentaryRepository)
+    public function article(Article $article, CommentaryRepository $commentaryRepository, Request $request)
     {
+        $commentary = new Commentary();
+        $date = new DateTime();
+        $date->setTimezone(new DateTimeZone('EUROPE/Paris'));
+        $commentaryForm = $this->createForm(CommentaryType::class, $commentary);
+
+        $commentaryForm->handleRequest($request);
+
+        if ($commentaryForm->isSubmitted() && $commentaryForm->isValid()) {
+            
+            $data = $commentaryForm->getData();
+            
+            $commentary
+            ->setDate($date)
+            ;
+
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($commentary);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('default');
+            
+            //dd($data);
+        }
+
         return $this->render('article.html.twig', [
 
             'article' => $article,
             //'commentary' => $commentaryRepository->findAll()
-            'commentary' => $commentaryRepository->eachCommentary()
+            'commentary' => $commentaryRepository->eachCommentary($article->getId()),
+            'commentaryForm' => $commentaryForm->createView()
         ]);
     }
 

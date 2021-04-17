@@ -4,6 +4,8 @@ namespace App\Form;
 
 use DateTime;
 use App\Entity\Article;
+use App\Entity\User;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -40,6 +42,12 @@ class ArticleType extends AbstractType
                 'label' => 'Auteur',
                 'attr' => ['id' => 'app.user.id']
             ])
+            ->add('user', EntityType::class, [
+
+                'label' => 'Auteur',
+                'class' => User::class,
+                'choice_label' => 'pseudo'
+            ])
             ->add('category', TextType::class, [
 
                 'label' => 'Catégorie',
@@ -52,8 +60,6 @@ class ArticleType extends AbstractType
                     'Invisible' => 0
                 ],
 
-                'preferred_choices' => [1],
-
                 'label' => 'Visibilité',
 
                 'expanded' => true,
@@ -62,11 +68,16 @@ class ArticleType extends AbstractType
             ->add('image', FileType::class, [
 
                 'label' => 'Selectionner une image',
+
+                'mapped' => false,
+
+                'required' => false
+                //'data_class' => null
             ])
-            ->add('add', SubmitType::class, [
+            /* ->add('add', SubmitType::class, [
 
                 'label' => 'Ajouter'
-            ])
+            ]) */
         ;
     }
 

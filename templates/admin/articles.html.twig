@@ -8,10 +8,10 @@
                 <h3>{{list.user.lastname}} {{list.user.firstname}} {{list.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{list.category}}</h3>
                 <br>
                 <h4>{{list.title}}</h4>
-                <img src="{{list.image}}" class="img-fluid" alt="BERSERK!">
+                <img src="{{asset(list.image)}}" class="img-fluid" alt="BERSERK!">
                 <p>{{list.contents}}</p>
-                {# <a href="{{ path('article', {'id': list.id}) }}" class="text-white">Modifier</a>
-                <a href="{{ path('delete', {'id': list.id}) }}" class="text-white">Supprimer</a> #}
+                <a href="{{ path('article_edit', {'id': list.id}) }}" class="text-white">Modifier</a>
+                {# <a href="{{ path('delete', {'id': list.id}) }}" class="text-white">Supprimer</a> #}
             {% endfor %}
             <a href="{{ path('article_create')}}" class="text-white">Ajouter un article</a>
             <a href="#" class="text-white">Gérer les commentaires</a>

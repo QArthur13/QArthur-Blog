@@ -1,0 +1,12 @@
+{% include "base.html.twig" %}
+
+{% block body %}
+    {% include "admin/nav.html.twig" %}
+    {{form_start(articleForm)}}
+        {{form_widget(articleForm)}}
+        <a href="{{path('article', {'id':article.id})}}">Voir l'article</a>
+        <button class="btn btn-warning">{{button_label|default("Modifier")}}</button>
+        <a class="btn btn-danger" href="{{path('article_delete', {'id':article.id})}}" role="button">{{button_label|default("Supprimer")}}</a>
+        <a class="btn btn-secondary" href="{{path('admin_index')}}" role="button">Annuler</a>
+    {{form_end(articleForm)}}
+{% endblock %}

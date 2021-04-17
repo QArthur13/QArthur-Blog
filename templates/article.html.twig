@@ -14,30 +14,23 @@
 
 <div class="bg-success text-white">
 
-    {# {% if commentary.id != article.id %}
-        <h4 class="text-center">Pas de commentaires</h4>
-    {% endif %} #}
-    
-    {# {% for comment in commentary %}
-        
-        {% if comment.article.id == comment.id %}
-            <h4>{{comment.user.pseudo}} <span class="ml-3">{{comment.user.email}}</span></h4>
-            <br>
-            <p>{{comment.message}}</p>
-        {% else %}
-            <h4>Pas de Résultat</h4>
-        {% endif %} #}
-        
-
-        {# <h4>{{comment.user.pseudo}} <span class="ml-3">{{comment.user.email}}</span></h4>
-        <br>
-        <p>{{comment.message}}</p> #}
-
-    {# {% endfor %} #}
-
     <br>
+
+    {% if commentary is empty %}
+        <h4>Il n'y a pas de commentaires!!!</h4>
+    {% else %}
+        {% for comment in commentary %}
+            {{comment.user.pseudo}}
+            {{comment.message}}
+            {{comment.date|date("d/m/Y H:i:s")}}
+        {% endfor %}        
+    {% endif %}
+    
+    
     {% if app.user %}
-        <h4>{{app.user.pseudo}}</h4>
+        {{form_start(commentaryForm)}}
+            <button class="btn btn-primary">{{button_label|default('Ajouter')}}</button>
+        {{form_end(commentaryForm)}}
     {% else %}
         <h4>Vous devez être connecter pour poster un commentaire</h4>
     {% endif %}
