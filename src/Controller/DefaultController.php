@@ -8,9 +8,12 @@ use App\Entity\Article;
 use App\Entity\Commentary;
 use App\Entity\Contact;
 use App\Entity\Newsletter;
+use App\Entity\UserLike;
+use App\Entity\UserShare;
 use App\Form\CommentaryType;
 use App\Form\ContactType;
 use App\Form\NewsletterType;
+use App\Form\UserLikeType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
@@ -166,10 +169,59 @@ class DefaultController extends AbstractController
     }
 
     /**
+     * @Route("/partage/{id}", name="userShare")
+     */
+    public function userShare(Article $article)
+    {
+        $userShare = new UserShare();
+        //dd($article);
+
+        $userShare
+            ->setArticle($article)
+            ->setUser($this->getUser())
+        ;
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($userShare);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Merci d\'avoir partager cet article!');
+
+        return $this->redirectToRoute('default');
+
+        dd($userShare);
+    }
+
+    /**
+     * @Route("/aimer/{id}", name="userLike")
+     */
+    public function userLike(Request $request, Article $article)
+    {
+        $userLike = new UserLike();
+        //dd($article);
+
+        $userLike
+            ->setArticle($article)
+            ->setUser($this->getUser())
+        ;
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($userLike);
+        $entityManager->flush();
+
+        $this->addFlash('success', 'Merci d\'avoir aimer cet article!');
+
+        return $this->redirectToRoute('default');
+
+        dd($userLike);
+    }
+
+    /**
      * @Route("/", name="default")
      */
     public function index(ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator): Response
     {
+
         $dataArticle = $articleRepository->findBy([], ['date' => 'desc']);
 
         $articles = $paginator->paginate(

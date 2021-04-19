@@ -15,7 +15,14 @@
         <p class="text-left mt-3 ml-2">{{article.contents|slice(0, 10) ~ '...'}}</p>
         <a href="{{ path('article', {'id': article.id}) }}" class="text-white">En savoir plus</a>
         <br>
+        <form method="post" action="{{path('userLike', {'id': article.id})}}">
+            <button class="btn btn-outline-success"><i class="far fa-thumbs-up mr-2"></i>J'aime</button>
+        </form>
+        <form method="post" action="{{path('userShare', {'id': article.id})}}">
+            <button class="btn btn-outline-secondary"><i class="far fa-share-up mr-2"></i>Paratager</button>
+        </form>
     {% endfor %}
+
 </div>
 
 <br>

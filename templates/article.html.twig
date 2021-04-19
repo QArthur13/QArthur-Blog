@@ -10,6 +10,12 @@
     <h6>{{article.underTitle}}</h6>
     <img src="{{article.image}}" class="img-fluid">
     <p class="text-left mt-3 ml-2">{{article.contents}}</p>
+    <form method="post" action="{{path('userLike', {'id': article.id})}}">
+        <button class="btn btn-outline-success"><i class="far fa-thumbs-up mr-2"></i>J'aime</button>
+    </form>
+    <form method="post" action="{{path('userShare', {'id': article.id})}}">
+        <button class="btn btn-outline-secondary"><i class="far fa-share-up mr-2"></i>Paratager</button>
+    </form>
 <div>
 
 <div class="bg-success text-white">
