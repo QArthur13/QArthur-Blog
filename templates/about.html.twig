@@ -1,5 +1,8 @@
 {% include "base.html.twig" %}
 
-<a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
+{% block body %}
+    <a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
+    <h1>Lorem ipsum </h1>
+{% endblock %}
 
-<h1>Lorem ipsum </h1>
+{% include "footer.html.twig" %}

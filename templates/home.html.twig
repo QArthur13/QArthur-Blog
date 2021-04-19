@@ -11,7 +11,7 @@
         <h3 class="text-left">{{article.user.lastname}} {{article.user.firstname}} {{article.date|date("d/m/Y H:i:s")}}<span class="ml-5">{{article.category}}</span></h3>
         <br>
         <h4>{{article.title}}</h4>
-        <img src="{{article.image}}" class="img-fluid" alt="BERSERK!">
+        <img src="{{article.image}}" class="img-fluid" alt="Image">
         <p class="text-left mt-3 ml-2">{{article.contents|slice(0, 10) ~ '...'}}</p>
         <a href="{{ path('article', {'id': article.id}) }}" class="text-white">En savoir plus</a>
         <br>
@@ -28,6 +28,6 @@
         'rounded' : 'false'
     })}}
 </div>
-{% include "footer.html.twig" %}
-
 {% endblock %}
+
+{% include "footer.html.twig" %}

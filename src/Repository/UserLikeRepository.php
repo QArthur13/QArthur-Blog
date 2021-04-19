@@ -2,6 +2,7 @@
 
 namespace App\Repository;
 
+use App\Entity\User;
 use App\Entity\UserLike;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -17,6 +18,17 @@ class UserLikeRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, UserLike::class);
+    }
+
+    public function userIdLike()
+    {
+        return $this->createQueryBuilder('ul')
+            ->innerJoin('ul.user', 'u', 'WITH', 'ul.user = u.id')
+            //->setParameter('user', $userLike->getUser())
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
     // /**

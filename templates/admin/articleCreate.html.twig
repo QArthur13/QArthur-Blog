@@ -1,8 +1,12 @@
 {% include "base.html.twig" %}
 
-{{form_start(articleForm)}}
-    <a class="btn btn-danger" href="{{ path('admin_index')}}" role="button">Annuler</a>
-    <button class="btn btn-primary">{{button_label|default('Ajouter')}}</button>
-{{form_end(articleForm)}}
+{% block body %}
+    {{form_start(articleForm)}}
+        <a class="btn btn-danger" href="{{ path('admin_index')}}" role="button">Annuler</a>
+        <button class="btn btn-primary">{{button_label|default('Ajouter')}}</button>
+    {{form_end(articleForm)}}
+{% endblock %}
+
+{% include "footer.html.twig" %}
 
 {# , {'attr': {'value': app.user.id}} #}

@@ -1,14 +1,18 @@
 {% include "base.html.twig" %}
 
-<a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
+{% block body %}
+    <a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
 
-<h1>Contact</h1>
+    <h1>Contact</h1>
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Envoie') }}</button>
-{{ form_end(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">{{ button_label|default('Envoie') }}</button>
+    {{ form_end(form) }}
 
-{% for message in app.flashes('success') %}
-    {{message}}
-{% endfor %}
+    {% for message in app.flashes('success') %}
+        {{message}}
+    {% endfor %}
+{% endblock %}
+
+{% include "footer.html.twig" %}

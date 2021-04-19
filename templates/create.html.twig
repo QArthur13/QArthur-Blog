@@ -1,12 +1,16 @@
 {% include "base.html.twig" %}
 
-<h1>Création</h1>
+{% block body %}
+    <h1>Création</h1>
 
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
-{{ form_end(form) }}
+    {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <button class="btn btn-primary">{{ button_label|default('Enregistrer') }}</button>
+    {{ form_end(form) }}
 
-{% for message in app.flashes('success') %}
-    {{message}}
-{% endfor %}
+    {% for message in app.flashes('success') %}
+        {{message}}
+    {% endfor %}
+{% endblock %}
+
+{% include "footer.html.twig" %}

@@ -14,6 +14,7 @@ use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
 use DateTime;
 use DateTimeZone;
+use Doctrine\ORM\Mapping\Id;
 use Knp\Component\Pager\PaginatorInterface;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -42,10 +43,10 @@ class DefaultController extends AbstractController
 
         if ($commentaryForm->isSubmitted() && $commentaryForm->isValid()) {
             
-            $data = $commentaryForm->getData();
-            
             $commentary
-            ->setDate($date)
+                ->setArticle($article)
+                ->setUser($this->getUser())
+                ->setDate($date)
             ;
 
             $entityManager = $this->getDoctrine()->getManager();
@@ -53,14 +54,11 @@ class DefaultController extends AbstractController
             $entityManager->flush();
 
             return $this->redirectToRoute('default');
-            
-            //dd($data);
         }
 
         return $this->render('article.html.twig', [
 
             'article' => $article,
-            //'commentary' => $commentaryRepository->findAll()
             'commentary' => $commentaryRepository->eachCommentary($article->getId()),
             'commentaryForm' => $commentaryForm->createView()
         ]);

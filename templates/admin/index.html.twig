@@ -1,21 +1,24 @@
 {% include 'base.html.twig' %}
 
 {% block body %}
-
-{# <body style="background-color: rgb(60, 179, 113); color: white"> #}
     {% include "admin/nav.html.twig" %}
+
+        {{form_start(searchForm)}}
+            {{form_widget(searchForm)}}
+        {{form_end(searchForm)}}
+
         <div class="mt-3 text-center" style="background-color: rgb(46, 139, 87); color: white">
-            {% for list in lists %}
-                <h3>{{list.user.lastname}} {{list.user.firstname}} {{list.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{list.category}}</h3>
+            {% for article in articles %}
+                <h3>{{article.user.lastname}} {{article.user.firstname}} {{article.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{article.category}}</h3>
                 <br>
-                <h4>{{list.title}}</h4>
-                <img src="{{asset(list.image)}}" class="img-fluid" alt="BERSERK!">
-                <p>{{list.contents}}</p>
+                <h4>{{article.title}}</h4>
+                <img src="{{asset(article.image)}}" class="img-fluid">
+                <p>{{article.contents}}</p>
             {% endfor %}
             <a href="{{ path('admin_commentary')}}" style="color: black">Gérer les commentaires</a>
             <br>
             <a href="{{ path('admin_articles') }}" style="color: black">Gérer les articles</a>
         </div>
-{# </body> #}
-
 {% endblock %}
+
+{% include "footer.html.twig" %}

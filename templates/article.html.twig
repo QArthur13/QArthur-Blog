@@ -13,9 +13,6 @@
 <div>
 
 <div class="bg-success text-white">
-
-    <br>
-
     {% if commentary is empty %}
         <h4>Il n'y a pas de commentaires!!!</h4>
     {% else %}
@@ -36,3 +33,5 @@
     {% endif %}
 </div>
 {% endblock %}
+
+{% include "footer.html.twig" %}

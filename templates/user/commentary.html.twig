@@ -1,16 +1,41 @@
 {% include "base.html.twig" %}
 
-<body style="background-color: rgb(60, 179, 113); color: white">
-    {% include "user/nav.html.twig" %}
-        <div class="mt-3 text-center" style="background-color: rgb(46, 139, 87); color: white">
-            <h1 class="text-center">Listes des commentaires que vous avez mis:</h1>
-            {% for comment in article %}
-                <img src="{{comment.article.image}}" class="img-fluid">
-                <h4>{{comment.article.title}}</h4>
-                <p>{{comment.article.category}}</p>
-                <p>{{comment.article.contents|slice(0, 10) ~ '...'}}
-                <p>{{comment.article.user.lastname}} {{comment.article.user.firstname}}</p>
-                <p>{{comment.message}}</p>
-            {% endfor %}
-        </div>
-</body>
+{% include "user/nav.html.twig" %}
+{% block body %}
+
+    {{form_start(searchForm)}}
+        {{form_widget(searchForm)}}
+    {{form_end(searchForm)}}
+
+    <div class="mt-3 text-center" style="background-color: rgb(46, 139, 87); color: white">
+        {% if comments is empty%}
+            <h5>Il semble que vous n'avez pas aimer d'article</h5>
+
+            {% else %}
+                {% for comment in comments %}
+                    <p>{{comment.article.image}}</p>
+                    <p>{{comment.article.title}}</p>
+                    <p>{{comment.article.category}}</p>
+                    <p>{{comment.article.contents}}</p>
+                    <p>{{comment.article.user.lastname}} {{comment.article.user.firstname}}</p>
+                    <p><em>Votre commenataire</em></p>
+                    <p>{{comment.message}}</p>
+                    <a href="{{path('article', {'id': comment.article.id})}}">Voir l'article</a>
+                    <hr>
+                {% endfor %}
+        {% endif %}
+    </div>
+
+    <br>
+
+    <div class="navigation">
+        {{knp_pagination_render(comments, null, {}, {
+
+            'align': 'center',
+            'size': 'medium',
+            'rounded' : 'false'
+        })}}
+    </div>
+{% endblock %}
+
+{% include "footer.html.twig" %}

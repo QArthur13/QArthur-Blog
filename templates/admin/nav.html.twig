@@ -1,11 +1,13 @@
-<ul class="nav justify-content-center">
-    <li class="nav-item">
-        <a class="nav-link active" href="{{ path('admin_index') }}" style="background-color: rgb(46, 139, 87); color: white">Accueille</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('admin_articles') }}" style="background-color: rgb(46, 139, 87); color: white">Articles</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" href="{{ path('admin_commentary') }}" style="background-color: rgb(46, 139, 87); color: white">Gérer les commentaires</a>
-    </li>
-</ul>
+{% block body %}
+    <ul class="nav justify-content-center">
+        <li class="nav-item">
+            <a class="nav-link active" href="{{ path('admin_index') }}" style="background-color: rgb(46, 139, 87); color: white">Accueille</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_articles') }}" style="background-color: rgb(46, 139, 87); color: white">Articles</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('admin_commentary') }}" style="background-color: rgb(46, 139, 87); color: white">Gérer les commentaires</a>
+        </li>
+    </ul>
+{% endblock %}
