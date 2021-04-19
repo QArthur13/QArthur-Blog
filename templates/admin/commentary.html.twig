@@ -1,4 +1,4 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     {% include "admin/nav.html.twig" %}
@@ -13,19 +13,22 @@
                 <h3>{{comment.user.email}}</h3>
                 <h4>{{comment.article.title}}</h4>
                 <p>{{comment.message}}</p>
-                {% if comment.approve == true %}
-                    <p><em>Votre commentaire à été approuvé</em></p>
+                {% if comment.approve == 1 %}
+                    <p><em>Ce commentaire à été approuvé</em></p>
                     <p>{{comment.approve}}</p>
-                {% elseif comment.approve == null %}
-                    <p><em>Votre commentaire n'a pas été encore approuvé</em></p>
-                {% else %}
-                    <p><em>Votre commentaire n'a pas été approuvé et ne sera pas publié</em></p>
+                {% endif %}
+                {% if comment.approve is null %}
+                    <p><em>Ce commentaire n'a pas été encore approuvé</em></p>
+                    <a href="{{path('commentary_approve', {'id': comment.id})}}">Approuvé</a>
+                    <a href="{{path('commentary_not_approve', {'id': comment.id})}}">Non approuvé</a>
+                {% endif %}
+                {% if comment.approve == 0 %}
+                    <p><em>Ce commentaire n'a pas été approuvé et ne sera pas publié</em></p>
                     <p>{{comment.approve}}</p>
                 {% endif %}
                 <a href="{{ path('article', {'id': comment.article.id}) }}">Voir l'article</a>
+                <a href="{{ path('commentary_edit', {'id': comment.id}) }}">Modifier le commentaire</a>
                 <hr>
             {% endfor %}
         </div>
 {% endblock %}
-
-{% include "footer.html.twig" %}

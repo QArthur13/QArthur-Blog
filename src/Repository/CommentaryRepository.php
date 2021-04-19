@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Commentary;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -19,14 +20,24 @@ class CommentaryRepository extends ServiceEntityRepository
         parent::__construct($registry, Commentary::class);
     }
 
-    public function userComment()
+    public function userComment($value /* User $user */)
+    {
+        return $this->createQueryBuilder('c')
+            ->innerJoin('c.user', 'u', 'WITH', 'c.user = :userId')
+            ->setParameter('userId', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /* public function userComment()
     {
         return $this->createQueryBuilder('c')
             ->innerJoin('c.user', 'u', 'WITH', 'c.user = u.id')
             ->getQuery()
             ->getResult()
         ;
-    }
+    } */
 
     public function eachCommentary(int $artitcleID)
     {

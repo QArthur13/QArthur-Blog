@@ -20,17 +20,8 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class CommentaryType extends AbstractType
 {
 
-    private $userRepository;
-
-    public function __construct(UserRepository $userRepository)
-    {
-        $this->userRepository = $userRepository;  
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $user = new User();
-
         $builder
             /* ->add('user', EntityType::class, [
                 

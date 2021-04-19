@@ -1,12 +1,9 @@
-{% include 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% include "user/nav.html.twig" %}
-
 {% block body %}
         {{ form_start(form) }}
             {{ form_widget(form) }}
             <button class="btn btn-primary">{{ button_label|default('Modifier') }}</button>
     {{ form_end(form) }}
 {% endblock %}
-
-{% include "footer.html.twig" %}

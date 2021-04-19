@@ -1,4 +1,4 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     {% include "admin/nav.html.twig" %}
@@ -15,11 +15,9 @@
                 <img src="{{asset(article.image)}}" class="img-fluid" alt="BERSERK!">
                 <p>{{article.contents}}</p>
                 <a href="{{ path('article_edit', {'id': article.id}) }}" class="text-white">Modifier</a>
-                {# <a href="{{ path('delete', {'id': list.id}) }}" class="text-white">Supprimer</a> #}
+                <hr>
             {% endfor %}
             <a href="{{ path('article_create')}}" class="text-white">Ajouter un article</a>
             <a href="#" class="text-white">Gérer les commentaires</a>
         </div>
 {% endblock %}
-
-{% include "footer.html.twig" %}

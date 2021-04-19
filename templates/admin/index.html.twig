@@ -1,4 +1,4 @@
-{% include 'base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
     {% include "admin/nav.html.twig" %}
@@ -20,5 +20,3 @@
             <a href="{{ path('admin_articles') }}" style="color: black">Gérer les articles</a>
         </div>
 {% endblock %}
-
-{% include "footer.html.twig" %}

@@ -37,7 +37,10 @@ class ArticleType extends AbstractType
 
                 'label' => 'Sous-titre',
             ])
-            ->add('user', HiddenType::class)
+            /* ->add('user', HiddenType::class, [
+
+                'data' => 
+            ]) */
             /* ->add('user', EntityType::class, [
 
                 'label' => 'Auteur',

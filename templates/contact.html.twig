@@ -1,4 +1,4 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     <a class="btn btn-primary" href="{{ path('default') }}" role="button">Retour à l'acceuille</a>
@@ -14,5 +14,3 @@
         {{message}}
     {% endfor %}
 {% endblock %}
-
-{% include "footer.html.twig" %}

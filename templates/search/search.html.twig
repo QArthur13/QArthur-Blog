@@ -1,7 +1,5 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
-{# <h1 class="text-center">Résultat pour {{search.title}}</h1> #}
-{# {{form(sortForm)}} #}
 {% block body %}
     {% if filters is empty %}
         <h1>Aucun Résultat!!</h1>
@@ -11,7 +9,7 @@
             <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                     <div class="col">
-                        <img src="{{list.image}}" alt="uneImage_\O_O/">
+                        <img src="{{asset(list.image)}}" alt="uneImage_\O_O/">
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -24,29 +22,4 @@
             </div>
         {% endfor %}
     {% endif %}
-
-    {# {% for list in search %}
-        <h1 class="text-center">Résultat:</h1>
-
-        <div class="card mb-3" style="max-width: 540px;">
-            <div class="row no-gutters">
-                <div class="col">
-                    <img src="{{list.image}}" alt="uneImage_\O_O/">
-                </div>
-                <div class="col-md-8">
-                    <div class="card-body">
-                        <h5 class="card-title">{{list.user.lastname}} {{list.user.firstname}}   {{list.date|date("d/m/Y H:i:s")}}   {{list.category}}</h5>
-                        <p class="card-text">{{list.contents|slice(0, 10)}}</p>
-                        <a href="{{ path('article', {'id': list.id}) }}" class="card-link">En savoir plus</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    {% endfor %} #}
-
-    {% for test in filters %}
-        <p class="text-center" style="color: red; font-size: 30px">{{test.user.lastname}}</p>
-    {% endfor %}
 {% endblock %}
-
-{% include "footer.html.twig" %}

@@ -1,4 +1,4 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% block body %}
     {% include "admin/nav.html.twig" %}
@@ -10,5 +10,3 @@
         <a class="btn btn-secondary" href="{{path('admin_index')}}" role="button">Annuler</a>
     {{form_end(articleForm)}}
 {% endblock %}
-
-{% include "footer.html.twig" %}

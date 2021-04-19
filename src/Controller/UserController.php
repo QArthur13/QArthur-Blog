@@ -30,7 +30,7 @@ class UserController extends AbstractController
      */
     public function userCommentary(CommentaryRepository $commentaryRepository, ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
     {
-        $dataComment = $commentaryRepository->userComment();
+        $dataComment = $commentaryRepository->userComment($this->getUser());
 
         $comments = $paginator->paginate(
 
@@ -415,9 +415,12 @@ class UserController extends AbstractController
      */
     public function index(CommentaryRepository $commentaryRepository): Response
     {
+        //dd($commentaryRepository->userCommentV2($this->getUser()));
+
         return $this->render('user/index.html.twig', [
 
-            'commentaries' => $commentaryRepository->findBy([], ['date' => 'desc'], 5)
+            //'commentaries' => $commentaryRepository->findBy([], ['date' => 'desc'], 5)
+            'commentaries' => $commentaryRepository->userComment($this->getUser())
         ]);
     }
 }

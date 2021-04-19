@@ -1,8 +1,7 @@
-{% include "base.html.twig" %}
+{% extends "base.html.twig" %}
 
 {% include "user/nav.html.twig" %}
 {% block body %}
-
     {{form_start(searchForm)}}
         {{form_widget(searchForm)}}
     {{form_end(searchForm)}}
@@ -37,5 +36,3 @@
         })}}
     </div>
 {% endblock %}
-
-{% include "footer.html.twig" %}

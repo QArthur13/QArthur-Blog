@@ -1,0 +1,12 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% include "admin/nav.html.twig" %}
+    {{form_start(commentaryForm)}}
+        {{form_widget(commentaryForm)}}
+        <a href="{{path('article', {'id':commentary.article.id})}}">Voir l'article</a>
+        <button class="btn btn-warning">{{button_label|default("Modifier")}}</button>
+        <a class="btn btn-danger" href="{{path('commentary_delete', {'id':commentary.id})}}" role="button">{{button_label|default("Supprimer")}}</a>
+        <a class="btn btn-secondary" href="{{path('admin_commentary')}}" role="button">Annuler</a>
+    {{form_end(commentaryForm)}}
+{% endblock %}

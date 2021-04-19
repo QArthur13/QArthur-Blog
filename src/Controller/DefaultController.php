@@ -7,8 +7,10 @@ use App\Form\UserType;
 use App\Entity\Article;
 use App\Entity\Commentary;
 use App\Entity\Contact;
+use App\Entity\Newsletter;
 use App\Form\CommentaryType;
 use App\Form\ContactType;
+use App\Form\NewsletterType;
 use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
@@ -30,7 +32,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class DefaultController extends AbstractController
 {
     /**
-     * @Route("/numero{id}", name="article")
+     * @Route("/numero/{id}", name="article")
      */
     public function article(Article $article, CommentaryRepository $commentaryRepository, Request $request)
     {
@@ -131,6 +133,35 @@ class DefaultController extends AbstractController
         return $this->render('create.html.twig', [
 
             'form' => $user_form->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/newsletter", name="newsletter")
+     */
+    public function FunctionName(Request $request)
+    {
+        $newsletter = new Newsletter();
+        $newsletterForm = $this->createForm(NewsletterType::class, $newsletter);
+
+        $newsletterForm->handleRequest($request);
+
+        if ($newsletterForm->isSubmitted() && $newsletterForm->isValid()) {
+            
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $entityManager->persist($newsletter);
+
+            $entityManager->flush();
+            
+            $this->addFlash('success', 'Merci pour le newsletter!');
+
+            return $this->redirectToRoute('newsletter');
+        }
+
+        return $this->render('newsletter.html.twig', [
+
+            'form' => $newsletterForm->createView()
         ]);
     }
 

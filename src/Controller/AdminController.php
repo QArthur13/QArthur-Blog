@@ -7,6 +7,9 @@ use DateTimeZone;
 use App\Entity\User;
 use App\Entity\Article;
 use App\Form\ArticleType;
+use App\Entity\Commentary;
+use App\Form\CommentaryType;
+use App\Form\CommentaryUpdateType;
 use App\Repository\ArticleRepository;
 use App\Repository\CommentaryRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -26,7 +29,85 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 class AdminController extends AbstractController
 {
     /**
-     * @Route("/suppresion_N°{id}", name="article_delete")
+     * @Route("/commentary/{id}/suppression", name="commentary_delete")
+     */
+    public function deleteComment(Commentary $commentary)
+    {
+        //dd($commentary);
+
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->remove($commentary);
+        $entityManager->flush();
+
+        return $this->redirectToRoute("admin_articles");
+    }
+
+    /**
+     * @Route("/commentary/{id}/edit", name="commentary_edit")
+     */
+    public function editcommenatary(Commentary $commentary, Request $request)
+    {
+        $commentaryEditForm = $this->createForm(CommentaryUpdateType::class, $commentary);
+        $commentaryEditForm->handleRequest($request);
+
+        //dd($commentary);
+
+        if ($commentaryEditForm->isSubmitted() && $commentaryEditForm->isValid()) {
+
+            //dd($commentaryEditForm->getData());
+            
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('admin_index');
+        }
+
+        return $this->render('admin/commentaryEdit.html.twig', [
+
+            'commentary' => $commentary,
+            'commentaryForm' => $commentaryEditForm->createView()
+        ]);
+    }
+
+    /**
+     * @Route("/commentary/{id}/approuve", name="commentary_not_approve")
+     */
+    public function commenataryNotApprovation(Commentary $commentary, Request $request)
+    {
+        //dd($commentary);
+
+        $commentary
+            ->setApprove(false)
+        ;
+
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('success', 'Le commentaire à bien été "non" approuvé!');
+
+        return $this->redirectToRoute("admin_commentary");
+
+        //dd($commentary);
+    }
+
+    /**
+     * @Route("/commentary/{id}/approuve", name="commentary_approve")
+     */
+    public function commenataryApprovation(Commentary $commentary, Request $request)
+    {
+        //dd($commentary);
+
+        $commentary
+            ->setApprove(true)
+        ;
+
+        $this->getDoctrine()->getManager()->flush();
+        $this->addFlash('success', 'Le commentaire à bien été approuvé!');
+
+        return $this->redirectToRoute("admin_commentary");
+
+        //dd($commentary);
+    }
+
+    /**
+     * @Route("/article/{id}/suppression", name="article_delete")
      */
     public function deleteArticle(Article $article)
     {
@@ -38,18 +119,18 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/article_N°{id}", name="article_edit")
+     * @Route("/article/{id}/edit", name="article_edit")
      */
     public function editArticle(Article $article, Request $request)
     {
         $articleEditForm = $this->createForm(ArticleType::class, $article);
         $articleEditForm->handleRequest($request);
 
-        dd($article);
+        //dd($article);
 
         if ($articleEditForm->isSubmitted() && $articleEditForm->isValid()) {
 
-            dd($articleEditForm->getData());
+            //dd($articleEditForm->getData());
             
             $this->getDoctrine()->getManager()->flush();
 
@@ -120,7 +201,7 @@ class AdminController extends AbstractController
     }
 
     /**
-     * @Route("/commentary", name="admin_commentary")
+     * @Route("/commentaries", name="admin_commentary")
      */
     public function commentaryManagement(ArticleRepository $articleRepository, CommentaryRepository $commentaryRepository, Request $request, PaginatorInterface $paginator)
     {
