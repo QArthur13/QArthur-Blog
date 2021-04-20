@@ -1,7 +1,7 @@
 {% extends "base.html.twig" %}
 
-{% include "user/nav.html.twig" %}
 {% block body %}
+{% include "user/nav.html.twig" %}
 
     {{form_start(searchForm)}}
         {{form_widget(searchForm)}}
@@ -13,11 +13,13 @@
 
             {% else %}
                 {% for like in likes %}
-                    <p>{{like.article.image}}</p>
+                    <img src="{{asset(like.article.image)}}" class="img-fluid">
                     <p>{{like.article.title}}</p>
                     <p>{{like.article.category}}</p>
                     <p>{{like.article.contents}}</p>
                     <p>{{like.user.lastname}} {{like.user.firstname}}</p>
+                    <a href="{{path('article', {'id': like.article.id}) }}">Voir l'article</a>
+                    <hr>
                 {% endfor %}
         {% endif %}
     </div>

@@ -20,12 +20,22 @@ class UserLikeRepository extends ServiceEntityRepository
         parent::__construct($registry, UserLike::class);
     }
 
-    public function userIdLike()
+    public function userLike($value)
     {
         return $this->createQueryBuilder('ul')
-            ->innerJoin('ul.user', 'u', 'WITH', 'ul.user = u.id')
-            //->setParameter('user', $userLike->getUser())
-            ->setMaxResults(10)
+            ->innerJoin('ul.user', 'u', 'WITH', 'ul.user = :userId')
+            ->setParameter('userId', $value)
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function userLikeId($value)
+    {
+        return $this->createQueryBuilder('ul')
+            ->innerJoin('ul.user', 'u', 'WITH', 'ul.user = :userId')
+            ->setParameter('userId', $value)
             ->getQuery()
             ->getResult()
         ;

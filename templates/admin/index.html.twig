@@ -14,6 +14,7 @@
                 <h4>{{article.title}}</h4>
                 <img src="{{asset(article.image)}}" class="img-fluid">
                 <p>{{article.contents}}</p>
+                <a href="{{path('article', {'id': article.id})}}">Voir l'article</a>
             {% endfor %}
             <a href="{{ path('admin_commentary')}}" style="color: black">Gérer les commentaires</a>
             <br>

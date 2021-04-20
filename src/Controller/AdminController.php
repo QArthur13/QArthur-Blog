@@ -21,6 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 
 /**
@@ -154,6 +155,8 @@ class AdminController extends AbstractController
         $date->setTimezone(new DateTimeZone('EUROPE/Paris'));
         $articleForm = $this->createForm(ArticleType::class, $article);
 
+        $article->setDate($date);
+        //dd($article);
         $articleForm->handleRequest($request);
 
         if ($articleForm->isSubmitted() && $articleForm->isValid()) {
@@ -180,16 +183,15 @@ class AdminController extends AbstractController
             }
 
             $article
-                ->setDate($date)
                 ->setImage($newImagename)
                 ->setUser($this->getUser())
             ;
-
-            //dd($article);
             
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($article);
             $entityManager->flush();
+
+            $this->addFlash('success', 'L\'article à bien été créer!');
 
             return $this->redirectToRoute('admin_index');
         }
@@ -472,9 +474,9 @@ class AdminController extends AbstractController
             
             $data = $searchForm->getData();
 
-            return $this->render('admin/search.html.twig', [
+            return $this->render('search/search.html.twig', [
 
-                'search' => $articleRepository->findSearch($data['query'])
+                'filters' => $articleRepository->findSearch($data['query'])
             ]);
         }
 

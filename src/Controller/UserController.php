@@ -11,6 +11,7 @@ use App\Repository\UserRepository;
 use App\Repository\ArticleRepository;
 use App\Repository\UserLikeRepository;
 use App\Repository\CommentaryRepository;
+use App\Repository\UserShareRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -30,9 +31,9 @@ class UserController extends AbstractController
      */
     public function userCommentary(CommentaryRepository $commentaryRepository, ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
     {
-        $dataComment = $commentaryRepository->userComment($this->getUser());
+        $dataComment = $commentaryRepository->userCommentId($this->getUser());
 
-        $comments = $paginator->paginate(
+        $commentaries = $paginator->paginate(
 
             $dataComment,
             $request->query->getInt('page', 1),
@@ -140,7 +141,7 @@ class UserController extends AbstractController
 
         return $this->render('user/commentary.html.twig', [
 
-            'comments' => $comments,
+            'commentaries' => $commentaries,
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -148,13 +149,13 @@ class UserController extends AbstractController
     /**
      * @Route("/share", name="user_share")
      */
-    public function userShare(UserLikeRepository $userLikeRepository, ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
+    public function userShare(UserShareRepository $userShareRepository, ArticleRepository $articleRepository, Request $request, PaginatorInterface $paginator)
     {
-        $dataLike = $userLikeRepository->userIdLike($this->getUser());
+        $dataShare = $userShareRepository->userShareId($this->getUser());
 
-        $likes = $paginator->paginate(
+        $shares = $paginator->paginate(
 
-            $dataLike,
+            $dataShare,
             $request->query->getInt('page', 1),
             10
         );
@@ -260,7 +261,7 @@ class UserController extends AbstractController
 
         return $this->render('user/share.html.twig', [
 
-            'likes' => $likes,
+            'shares' => $shares,
             'searchForm' => $searchForm->createView()
         ]);
     }
@@ -272,7 +273,7 @@ class UserController extends AbstractController
     {
         //dd($user->getId());
 
-        $dataLike = $userLikeRepository->userIdLike($this->getUser());
+        $dataLike = $userLikeRepository->userLikeId($this->getUser());
 
         $likes = $paginator->paginate(
 
@@ -413,13 +414,15 @@ class UserController extends AbstractController
     /**
      * @Route("/", name="user_index")
      */
-    public function index(CommentaryRepository $commentaryRepository): Response
+    public function index(UserLikeRepository $userLikeRepository, UserShareRepository $userShareRepository, CommentaryRepository $commentaryRepository): Response
     {
         //dd($commentaryRepository->userCommentV2($this->getUser()));
 
         return $this->render('user/index.html.twig', [
 
             //'commentaries' => $commentaryRepository->findBy([], ['date' => 'desc'], 5)
+            'likes' => $userLikeRepository->userLike($this->getUser()),
+            'shares' => $userShareRepository->userShare($this->getUser()),
             'commentaries' => $commentaryRepository->userComment($this->getUser())
         ]);
     }

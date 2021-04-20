@@ -19,6 +19,27 @@ class UserShareRepository extends ServiceEntityRepository
         parent::__construct($registry, UserShare::class);
     }
 
+    public function userShare($value)
+    {
+        return $this->createQueryBuilder('us')
+            ->innerJoin('us.user', 'u', 'WITH', 'us.user = :userId')
+            ->setParameter('userId', $value)
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function userShareId($value)
+    {
+        return $this->createQueryBuilder('us')
+            ->innerJoin('us.user', 'u', 'WITH', 'us.user = :userId')
+            ->setParameter('userId', $value)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return UserShare[] Returns an array of UserShare objects
     //  */

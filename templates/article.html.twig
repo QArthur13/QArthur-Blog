@@ -8,7 +8,7 @@
     <br>
     <h4>{{article.title}}</h4>
     <h6>{{article.underTitle}}</h6>
-    <img src="{{article.image}}" class="img-fluid">
+    <img src="{{asset(article.image)}}" class="img-fluid">
     <p class="text-left mt-3 ml-2">{{article.contents}}</p>
     <form method="post" action="{{path('userLike', {'id': article.id})}}">
         <button class="btn btn-outline-success"><i class="far fa-thumbs-up mr-2"></i>J'aime</button>

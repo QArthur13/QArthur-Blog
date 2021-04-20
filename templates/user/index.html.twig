@@ -1,21 +1,65 @@
 {% extends 'base.html.twig' %}
 
-{% include "user/nav.html.twig" %}
 {% block body %}
+{% include "user/nav.html.twig" %}
     <div class="mt-3 text-center">
-        <p>Vous avez aimer :</p>
-        <br>
-        <p>Vous avez partagés :</p>
-        <br>
+        <p>Les cinqs dernier articles que vous avez aimer :</p>
+            {% for like in likes %}
+                <h3>{{like.user.lastname}} {{like.user.firstname}} {{like.article.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{like.article.category}}</h3>
+                <br>
+                <h4>{{like.article.title}}</h4>
+                <img src="{{asset(like.article.image)}}" class="img-fluid">
+                <p>{{like.article.contents}}</p>
+                <a href="{{path('article', {'id': like.article.id}) }}">Voir l'article</a>
+            {% endfor %}
+        <hr>
+        <p>Les cinqs dernier articles que vous avez partagés :</p>
+            {% for share in shares %}
+                <h3>{{share.user.lastname}} {{share.user.firstname}} {{share.article.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{share.article.category}}</h3>
+                <br>
+                <h4>{{share.article.title}}</h4>
+                <img src="{{asset(share.article.image)}}" class="img-fluid">
+                <p>{{share.article.contents}}</p>
+                <a href="{{path('article', {'id': share.article.id}) }}">Voir l'article</a>
+            {% endfor %}
+        <hr>
         <p>Les cinqs dernier articles que vous avez commentés :</p>
-        {% for commentary in commentaries %}
+        {% for commment in commentaries %}
             
-            {% if commentary is empty %}
+            {% if commment is empty %}
                 <p>Pas de commentaire</p>
             {% endif %}
             
-            <p>Nom de l'article: <strong>{{commentary.article.title}}</strong></p>
-            <p>Votre commentaires: <em>{{commentary.message}}</em></p>
+            <h3>{{commment.user.lastname}} {{commment.user.firstname}} {{commment.article.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{commment.article.category}}</h3>
+                <br>
+                <h4>{{commment.article.title}}</h4>
+                <img src="{{asset(commment.article.image)}}" class="img-fluid">
+                <p>{{commment.article.contents}}</p>
+                <p>{{commment.message}}</p>
+                <a href="{{path('article', {'id': commment.article.id}) }}">Voir l'article</a>
         {% endfor %}
     </div>
 {% endblock %}
+
+{# {% for like in likes %}
+                <h3>{{like.user.lastname}} {{like.user.firstname}} {{like.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{like.category}}</h3>
+                <br>
+                <h4>{{like.title}}</h4>
+                <img src="{{asset(like.image)}}" class="img-fluid">
+                <p>{{like.contents}}</p>
+            {% endfor %}
+            {% for share in shares %}
+                <h3>{{share.user.lastname}} {{share.user.firstname}} {{share.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{share.category}}</h3>
+                <br>
+                <h4>{{share.title}}</h4>
+                <img src="{{asset(share.image)}}" class="img-fluid">
+                <p>{{share.contents}}</p>
+            {% endfor %}
+            {% for commment in commentaries %}
+                <h3>{{commment.user.lastname}} {{commment.user.firstname}} {{commment.article.date|date("d/m/Y H:i:s")}}<span class="mr-5"></span>{{commment.article.category}}</h3>
+                <br>
+                <h4>{{commment.article.title}}</h4>
+                <img src="{{asset(commment.article.image)}}" class="img-fluid">
+                <p>{{commment.article.contents}}</p>
+                <p>{{comment.message}}</p>
+            {% endfor %} #}

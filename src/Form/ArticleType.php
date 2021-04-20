@@ -3,22 +3,25 @@
 namespace App\Form;
 
 use DateTime;
-use App\Entity\Article;
 use App\Entity\User;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use DateTimeInterface;
+use App\Entity\Article;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Validator\Constraints\Date;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TelType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\FormEvent;
-use Symfony\Component\Form\FormEvents;
 
 class ArticleType extends AbstractType
 {
@@ -37,16 +40,6 @@ class ArticleType extends AbstractType
 
                 'label' => 'Sous-titre',
             ])
-            /* ->add('user', HiddenType::class, [
-
-                'data' => 
-            ]) */
-            /* ->add('user', EntityType::class, [
-
-                'label' => 'Auteur',
-                'class' => User::class,
-                'choice_label' => 'pseudo'
-            ]) */
             ->add('category', TextType::class, [
 
                 'label' => 'Catégorie',
@@ -73,11 +66,24 @@ class ArticleType extends AbstractType
                 'required' => false
                 //'data_class' => null
             ])
-            /* ->add('add', SubmitType::class, [
-
-                'label' => 'Ajouter'
-            ]) */
+            //->add('date', HiddenType::class)
         ;
+
+        /* $builder->addEventListener(FormEvents::POST_SUBMIT, function (FormEvent $event) {
+
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            //dd($data['visibility']);
+
+            if ($data['visibility'] == 0) {
+                
+                $form->add('date', DateTimeType::class, [
+
+                    'label' => 'Date',
+                ]);
+            }
+        }); */
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -23,40 +23,6 @@ class CommentaryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            /* ->add('user', EntityType::class, [
-                
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $entityRepository) {
-                    $user = new User();
-                    return $entityRepository->createQueryBuilder('u')
-                        ->where('u.id = :userId')
-                        ->setParameter('userId', $user->getId())
-                        ;
-                },
-                'choice' => $this->userRepository->findUserId($user->getId()),
-                'choice_label' => 'pseudo',
-                'label' => 'Pseudo',
-            ])
-            ->add('user', EntityType::class, [
-                
-                'class' => User::class,
-                'query_builder' => function (EntityRepository $entityRepository) {
-                    $user = new User();
-                    return $entityRepository->createQueryBuilder('u')
-                        ->where('u.id = :userId')
-                        ->setParameter('userId', $user->getId());
-                },
-                'choice_label' => 'email',
-                'label' => 'Email',
-            ])
-            ->add('article', EntityType::class, [
-                
-                'class' => Article::class,
-                'choice_label' => 'id',
-                'label' => 'Article',
-            ]) */
-            ->add('user', HiddenType::class)
-            ->add('article', HiddenType::class)
             ->add('message', TextareaType::class, [
 
                 'label' => 'Message'

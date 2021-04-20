@@ -25,19 +25,22 @@ class CommentaryRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('c')
             ->innerJoin('c.user', 'u', 'WITH', 'c.user = :userId')
             ->setParameter('userId', $value)
+            ->orderBy('c.date', 'desc')
+            ->setMaxResults(5)
             ->getQuery()
             ->getResult()
         ;
     }
 
-    /* public function userComment()
+    public function userCommentId($value /* User $user */)
     {
         return $this->createQueryBuilder('c')
-            ->innerJoin('c.user', 'u', 'WITH', 'c.user = u.id')
+            ->innerJoin('c.user', 'u', 'WITH', 'c.user = :userId')
+            ->setParameter('userId', $value)
             ->getQuery()
             ->getResult()
         ;
-    } */
+    }
 
     public function eachCommentary(int $artitcleID)
     {
